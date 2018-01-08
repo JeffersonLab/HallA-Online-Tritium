@@ -1,4 +1,4 @@
-# scaler.map file for Left HRS event type 140
+# scaler.map file for Left HRS fast scaler
 # comments start with #
 
 # map syntax
@@ -11,7 +11,7 @@ map 3800 1 1 abc10020 ffffffff 1 7 103700
 # variable syntax
 # slot#, chan#, (1=cnt, 2=rate), var name, description string
 # var name gets "fName" prefix, e.g.
-# for L-HRS scalers with fname="Left", var name = "LeftTSbcmu3"
+# for L-HRS scalers with fname="evLeft", var name = "evLeftTSbcmu3"
 
 
 variable 1 0  1  T1    LHRS T1 trigger
