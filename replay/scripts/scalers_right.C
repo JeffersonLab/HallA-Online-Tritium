@@ -79,7 +79,7 @@ void scalers_right(Int_t flag, TString drawoption){
     h8->GetXaxis()->SetTitle("Entry #");h8->GetXaxis()->CenterTitle();
     h8->GetYaxis()->SetTitle("T1 (counts)");h8->GetYaxis()->CenterTitle();
 
-    tree->Draw("RightT1:Entry$>>h8","",drawoption);
+    tree->Draw("RightT4:Entry$>>h8","",drawoption);
 
   }
 
@@ -89,7 +89,7 @@ void scalers_right(Int_t flag, TString drawoption){
     h9->GetXaxis()->SetTitle("Entry #");h9->GetXaxis()->CenterTitle();
     h9->GetYaxis()->SetTitle("T2 (counts)");h9->GetYaxis()->CenterTitle();
 
-    tree->Draw("RightT2:Entry$>>h9","",drawoption);
+    tree->Draw("RightT5:Entry$>>h9","",drawoption);
   }
 
   if(flag ==10){
@@ -98,7 +98,7 @@ void scalers_right(Int_t flag, TString drawoption){
     h10->GetXaxis()->SetTitle("Entry #");h10->GetXaxis()->CenterTitle();
     h10->GetYaxis()->SetTitle("T3 (counts)");h10->GetYaxis()->CenterTitle();
 
-    tree->Draw("RightT3:Entry$>>h10","",drawoption);
+    tree->Draw("RightT6:Entry$>>h10","",drawoption);
 
   }
 
