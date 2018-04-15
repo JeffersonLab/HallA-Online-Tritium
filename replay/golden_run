@@ -10,26 +10,15 @@ fi
 echo
 echo
 
-if [ $RUNNUM -le 90000 ]
-then
 
-echo "Changing the left golden run to $RUNNUM"
+echo "Changing the golden run to $RUNNUM"
 
-	unlink /chafs1/work1/tritium/Rootfiles/tritium_Left_golden.root
-	ln -s /chafs1/work1/tritium/Rootfiles/tritium_online_$RUNNUM.root /chafs1/work1/tritium/Rootfiles/tritium_Left_golden.root
+	unlink /chafs1/work1/tritium/Rootfiles/tritium_coinc_golden.root
+	ln -s /chafs1/work1/tritium/Rootfiles/tritium_online_$RUNNUM.root /chafs1/work1/tritium/Rootfiles/tritium_coinc_golden.root
 
-
-else
-
-echo "Changing the right golden run to $RUNNUM"
-
-	unlink /chafs1/work1/tritium/Rootfiles/tritium_Right_golden.root
-	ln -s /chafs1/work1/tritium/Rootfiles/tritium_online_$RUNNUM.root /chafs1/work1/tritium/Rootfiles/tritium_Right_golden.root
-	
-fi
 
 echo
-echo "The Current Golden Runs are: "
+echo "The Current Golden Run is: "
 echo
-ls -l /chafs1/work1/tritium/Rootfiles/ | grep golden
+ls -l /chafs1/work1/tritium/Rootfiles/ | grep coinc_golden
 echo
