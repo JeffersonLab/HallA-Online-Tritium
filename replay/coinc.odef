@@ -482,8 +482,8 @@ block FbusLrb*
 formula Lep (L.prl1.e+L.prl2.e)/(L.gold.p*1000)
 # LEFT ARM S0
 
-TH1F Ls0lt 'S0-Bottom(B) TDC' L.s0.lt 500 2600 2900 L.s0.lt>0.
-TH1F Ls0rt 'S0-Top(A) TDC' L.s0.rt 500 2600 2900 L.s0.rt>0.
+TH1F Ls0lt 'S0-Bottom(B) TDC' L.s0.lt 300 2600 2900 L.s0.lt>0.
+TH1F Ls0rt 'S0-Top(A) TDC' L.s0.rt 300 2600 2900 L.s0.rt>0.
 TH1F Ls0ltTAll 'S0-Bottom(B) TDC w/T2,T3' L.s0.lt 500 1300 2300 L.s0.lt>0.&&((DL.evtypebits==12)||(DL.evtypebits==14))
 TH1F Ls0ltT3   'S0-Bottom(B) TDC w/ T3 only' L.s0.lt 500 1300 2300 L.s0.lt>0.&&(DL.evtypebits==8)
 TH1F Ls0rtTAll 'S0-Top(A) TDC w/ T2,T3' L.s0.rt 500 1300 2300 L.s0.rt>0.&&((DL.evtypebits==12)||(DL.evtypebits==14))
