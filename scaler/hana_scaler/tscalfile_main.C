@@ -10,6 +10,7 @@
 #include <string>
 #include "THaScaler.h"
 #include "THaCodaFile.h"
+//#include <THaCodaFile.h>
 
 using namespace std;
 
@@ -17,7 +18,8 @@ int main(int argc, char* argv[]) {
 
    int printout = 1;   // To printout lots of stuff (1) or not (0)
    int trig;
-   TString filename = "run.dat";
+//  TString filename = "run.dat";
+    TString filename = "/volatile/halla/triton/raw/triton_862.dat.0";
 
    if (argc < 2) {
      cout << "Usage:  "<<argv[0]<<" bank"<<endl;

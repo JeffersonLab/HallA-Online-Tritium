@@ -2,7 +2,7 @@
 
 #define R__DICTIONARY_FILENAME THaScalDict
 
-/*******************************************************************/
+*******************************************************************/
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -333,7 +333,7 @@ namespace {
 0
     };
     static const char* includePaths[] = {
-"/adaqfs/apps/ROOT/pro/include",
+"/u/apps/root/6.10.02/root/include",
 "../hana_decode",
 "/adaqfs/apps/ROOT/6.12-06/include",
 "/adaqfs/home/a-onl/tritium/scaler/hana_scaler/",
