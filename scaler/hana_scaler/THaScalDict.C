@@ -2,7 +2,7 @@
 
 #define R__DICTIONARY_FILENAME THaScalDict
 
-/*******************************************************************/
+*******************************************************************/
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -147,7 +147,7 @@ TClass *THaScalerDB::Dictionary()
 //______________________________________________________________________________
 TClass *THaScalerDB::Class()
 {
-   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::THaScalerDB*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::THaScalerDB*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -335,8 +335,8 @@ namespace {
     static const char* includePaths[] = {
 "/u/apps/root/6.10.02/root/include",
 "../hana_decode",
-"/u/apps/root/6.10.02/root/include",
-"/lustre/expphy/work/halla/triton/mnycz/a-onl_analyzer/HallA-Online-Tritium/scaler/hana_scaler/",
+"/adaqfs/apps/ROOT/6.12-06/include",
+"/adaqfs/home/a-onl/tritium/scaler/hana_scaler/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
