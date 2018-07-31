@@ -333,10 +333,10 @@ namespace {
 0
     };
     static const char* includePaths[] = {
-"/adaqfs/apps/ROOT/pro/include",
+"/u/apps/root/6.10.02/root/include",
 "../hana_decode",
-"/adaqfs/apps/ROOT/6.10-08/include",
-"/adaqfs/home/a-onl/tritium/scaler/hana_scaler/",
+"/u/apps/root/6.10.02/root/include",
+"/lustre/expphy/work/halla/triton/mnycz/a-onl_analyzer/HallA-Online-Tritium/scaler/hana_scaler/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
