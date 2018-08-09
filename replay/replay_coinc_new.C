@@ -71,6 +71,8 @@ void replay_coinc_new(Int_t runnumber=0,Int_t numevents=0,Int_t fstEvt=0,Bool_t 
 	HRSR->AddDetector( new TriFadcXscin    ("s0" , "s0 scintillator",kTRUE        ));
 	HRSR->AddDetector( new THaVDC          ("vdc", "Vertical Drift Chamber"       ));
 	HRSR->AddDetector( new TriFadcCherenkov("cer", "Gas Cherenkov counter - FADC" ));
+	HRSR->AddDetector( new TriFadcCherenkov("A1", "Aerogel 1 Cherenkov counter - FADC" ));
+	HRSR->AddDetector( new TriFadcCherenkov("A2", "Aerogel 2 Cherenkov counter - FADC" ));
 	HRSR->AddDetector( new TriFadcScin     ("s2" , "S2 Scintillator - FADC"       ));
 	HRSR->AddDetector( new THaShower       ("ps" , "Pre-shower pion rej."         ));
 	HRSR->AddDetector( new THaShower       ("sh" , "Show pion rej."               ));
