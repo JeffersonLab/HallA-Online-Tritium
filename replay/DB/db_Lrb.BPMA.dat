@@ -33,5 +33,3 @@ Lrb.BPMA.calib_rot = 0.01887
 Lrb.BPMA.pedestals =  16044  16905  16507  17290 
 Lrb.BPMA.rotmatrix = -0.750796  0.723848 0.77656  0.72107
 Lrb.BPMA.offsets =  0.00143766 -6.81262e-06
-
-

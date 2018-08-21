@@ -1,0 +1,157 @@
+#!/bin/sh
+
+# Usage: farm_list
+#
+# This script creates batch_krun and jscript_krun in batch_files directory
+# and submits the job to the farms
+#
+# Feb 22   2011                                        Zhihong Ye
+# Feb 20   2018    updated for Triton                  Zhihong Ye
+# May/June 2018    More Tritium updates                Tyler Hague & Evan McClellan
+# July 6   2018    Friendliness/Portability Updates    Tyler Hague
+#
+
+#Set up Directories.
+ANALYZERDIR=/work/halla/triton/MARATHON_Replay/analyzer1.6
+VOLATILEDIR=/volatile/halla/triton/Marathon_Rootfiles/
+RAWDIR=/cache/halla/triton/raw/
+DB_DIR=/work/halla/triton/tjhague/replay_tritium/replay/DB
+TAPEDIR=/mss/halla/triton/prod/marathon/
+REPLAYDIR=/work/halla/triton/tjhague/replay_tritium/replay/
+BATCHDIR=/work/halla/triton/tjhague/replay_tritium/batch_farm/
+PASS=pass1
+ROOTFILEFORM=tritium_
+RAWFILEFORM=triton_
+WORKFLOWFORM=h3_replay_
+
+
+#
+# Function to check if input is an integer
+#
+is_integer() {
+ case $1 in
+  *[!0-9]*) return 1;;
+  *) return 0;;
+ esac
+}
+
+runfile=$1
+echo $runfile
+list_name=${runfile%.*}
+
+calib=0
+if [ "$2" == "calibration" ]; then
+  calib=1
+else
+  calib=0
+fi
+
+while read krun; do
+COUNT=0
+#If the data is already in the cahce, replay it
+if [ -e $RAWDIR$RAWFILEFORM$krun".dat."$COUNT ]; then
+
+#
+# Verify if batch_files and .tmp.REPLAY exist
+#
+    if ! [ -d batch_files ]
+	then 
+	echo "----------------------------------------------------------------"
+	echo "I need batch_files directory. I am going to create it"
+	echo  
+	mkdir batch_files
+    fi
+    
+#
+    echo
+#
+# Write file batch_krun
+#
+    rm -f batch_files/batch_${krun}
+    echo "#!/bin/sh" >> batch_files/batch_${krun}
+    echo "source /apps/root/6.10.02/setroot_CUE.bash" >>batch_files/batch_${krun}
+    echo "export ANALYZER="$ANALYZERDIR >>batch_files/batch_${krun}
+
+    echo "export DB_DIR="$DB_DIR >>batch_files/batch_${krun}
+
+    echo "export LD_LIBRARY_PATH=\${ANALYZER}::\$ROOTSYS/lib:\${LD_LIBRARY_PATH}" >>batch_files/batch_${krun}
+    echo "export PATH=\${ROOTSYS}/bin:\${ANALYZER}:\${PATH}" >>batch_files/batch_${krun}
+    if [ $calib == 1 ]; then
+      echo "export CALIBRATION_RUN=yes" >>batch_files/batch_${krun}
+      echo "export OUT_DIR="$PASS"_calibration" >>batch_files/batch_${krun}
+    else
+      echo "export OUT_DIR="$PASS >>batch_files/batch_${krun}
+    fi
+
+    echo "cd "$REPLAYDIR >>batch_files/batch_${krun}
+    if [ $calib == 1 ]; then
+      echo "rm -f "$VOLATILEDIR$PASS"_calibration/"$ROOTFILEFORM${krun}"*.root" >>batch_files/batch_${krun}
+    else
+      echo "rm -f "$VOLATILEDIR$PASS"/"$ROOTFILEFORM${krun}"*.root" >>batch_files/batch_${krun}
+    fi
+    echo " ">>batch_files/batch_${krun}
+    echo "./fullReplay "${krun} >>batch_files/batch_${krun}
+    if [ $calib == 1 ]; then
+      echo "cd "$VOLATILEDIR$PASS"_calibration/" >>batch_files/batch_${krun}
+      echo "for f in "$ROOTFILEFORM${krun}"*.root; do" >>batch_files/batch_${krun}
+      echo "  swif outfile "$VOLATILEDIR$PASS"_calibration/\$f mss:"$TAPEDIR$PASS"_calibration/${list_name}/\$f" >>batch_files/batch_${krun}
+      echo "  echo \"Found \"\$f" >>batch_files/batch_${krun}
+      echo "done" >>batch_files/batch_${krun}
+    else
+      echo "cd "$VOLATILEDIR$PASS"/" >>batch_files/batch_${krun}
+      echo "for f in "$ROOTFILEFORM${krun}"*.root; do" >>batch_files/batch_${krun}
+      echo "  swif outfile "$VOLATILEDIR$PASS"/\$f mss:"$TAPEDIR$PASS"/${list_name}/\$f" >>batch_files/batch_${krun}
+      echo "  echo \"Found \"\$f" >>batch_files/batch_${krun}
+      echo "done" >>batch_files/batch_${krun}
+    fi
+#  
+    chmod +x batch_files/batch_${krun}
+    
+    echo "batch_files/batch_"${krun}" has been created!"
+    echo " "
+    
+#
+# Write the jsub script
+#
+    rm -f batch_files/jscript_${krun}
+    echo "PROJECT     triton" > batch_files/jscript_${krun}
+    echo "COMMAND     "$BATCHDIR"/batch_files/batch_"${krun} >>batch_files/jscript_${krun}
+    echo "JOBNAME     H3.${list_name}replay"${krun} >>batch_files/jscript_${krun}
+    echo "TRACK       analysis" >> batch_files/jscript_${krun}
+    echo "TIME        180" >>batch_files/jscript_${krun}
+    echo "MEMORY      3000 MB" >>batch_files/jscript_${krun}
+    echo "OS          centos7" >>batch_files/jscript_${krun}
+    echo "SINGLE_JOB:    true" >>batch_files/jscript_${krun}
+    
+    echo "batch_files/jscript_"${krun}" has been created."
+    echo " " 
+    echo "Now, let us wait for the farms..."
+    echo " "
+################################
+#    Submit job to the farm    #  
+################################
+    if [ $calib == 1 ]; then
+      swif add-jsub -workflow ${WORKFLOWFORM}${list_name}_calib -create -script ./batch_files/jscript_${krun}
+    else
+      swif add-jsub -workflow ${WORKFLOWFORM}${list_name} -create -script ./batch_files/jscript_${krun}
+    fi
+################################
+################################
+
+    echo "Job "${krun} "has been submited!"
+    echo
+    echo
+#
+    sleep 1
+    
+else
+    echo
+    echo "***** Cache the raw files for ${krun}, please do your replay later when it is done *****"
+echo
+
+fi
+done < $runfile
+
+echo
+echo "***** Good Bye and thank you for using the script *****"
+echo
