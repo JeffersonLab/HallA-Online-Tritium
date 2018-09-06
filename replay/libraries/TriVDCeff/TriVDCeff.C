@@ -141,7 +141,7 @@ Int_t TriVDCeff::Begin( THaRunBase* )
       thePlane.hist_ineff = new TH1F( name, title,
             thePlane.nwire, 0, thePlane.nwire );
       thePlane.hist_ineff->SetMaximum(2);
-      thePlane.hist_ineff->SetMinimum(0.001);
+      thePlane.hist_ineff->SetMinimum(0.005);
     }
   }
   fNevt = 0;

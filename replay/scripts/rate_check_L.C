@@ -18,13 +18,13 @@ void rate_check_L(Int_t flag, TString drawoption){
   TCut pid = "L.cer.asum_c>2000 && (L.prl1.e+L.prl2.e)/(1000*L.tr.p[0])>0.7";
   TCut acc = Form("abs(L.tr.tg_dp)<%f && abs(L.tr.tg_th)<%f && abs(L.tr.tg_ph)<%f ", dp_cut, th_cut, ph_cut);
   TCut data_cut = track +pid +acc;
-  TCut y_cut = "abs(L.tr.vz)<0.08"; // +-7cm ztarget at 17 degree
+  TCut y_cut = "abs(L.tr.vz)<0.08"; 
   if(flag==1){
     
     TH1F *ht1 = new TH1F("ht1","xbj w/ acc and tgy cuts",500,0,5);
     ht1->GetXaxis()->SetTitle("xbj");ht1->GetXaxis()->CenterTitle();
     ht1->GetYaxis()->SetTitle("good events counts");ht1->GetYaxis()->CenterTitle();
-    tree->Draw("EKL.x_bj>>ht1",data_cut+y_cut+acc,drawoption);
+    tree->Draw("EKLxe.x_bj>>ht1",data_cut+y_cut+acc,drawoption);
     
   }
  if(flag==2){
@@ -34,7 +34,7 @@ void rate_check_L(Int_t flag, TString drawoption){
     ht2->GetYaxis()->SetTitle("good events counts");ht2->GetYaxis()->CenterTitle();
     
     
-    tree->Draw("EKL.Q2>>ht2",data_cut+y_cut,drawoption);
+    tree->Draw("EKLxe.Q2>>ht2",data_cut+y_cut,drawoption);
   }
  if(flag==3){
     
@@ -77,7 +77,7 @@ void rate_check_L(Int_t flag, TString drawoption){
     ht4->GetYaxis()->SetTitle("Q2");ht4->GetYaxis()->CenterTitle();
     //ht3->SetMarkerStyle(3);ht3->SetMarkerSize(0.75);
 
-    tree->Draw("EKL.Q2:EKL.x_bj>>ht4",data_cut+y_cut,drawoption);
+    tree->Draw("EKLxe.Q2:EKLxe.x_bj>>ht4",data_cut+y_cut,drawoption);
     
   }
 
