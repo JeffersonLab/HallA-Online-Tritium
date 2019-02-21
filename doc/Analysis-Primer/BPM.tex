@@ -1,3 +1,18 @@
-\subsection{BPM PreBeam Check}
+\subsection{BPM Calibration}
 
+The Beam Position Monitors(BPMs) consist of four antennas that since the field produced by the beam traveling through beam line. These four wires can measure the Beam's position in a rotated frame $ (u/v) $ compared to the nominal Hall Coordinate system $(x/y)$. These rotated positions are then transformed into the correct frame via a calibration procedure. 
 
+The BPM calibration procedure uses a technique called a Bull's eye scan to match the absolute position of the beam in the Hall's frame measured from a Harp. The harps are an intrusive way to measure the beam's absolute position.  The Bull's scan is process of taking many Harp scans at many different beam positions. Data from the Harp scans and from CODA is used to solve equation \ref{bpm} for the rotation matrix and the offset vector.
+\begin{equation}
+\begin{pmatrix} Beam_x \\ Beam_y \end{pmatrix} =
+\begin{pmatrix} BPM_u \\ BPM_v \end{pmatrix} 
+\begin{pmatrix} C_{00} & C_{01} \\ C_{10} & C_{11} \end{pmatrix} +
+\begin{pmatrix} Offset_x \\ Offset_y \end{pmatrix}  \label{bpm}
+\end{equation}
+During a harp scan, the $(u/v)$ BPM positions are measured by the BPMs in Hall A and the $(x/y)$ beam positions are measured by the harps. Expanding out equation \ref{bpm}, 
+\begin{align}
+Beam_x &= BPM_u*C_{00} + BPM_v*C{01} + offset_x \label{bpi}\\
+Beam_y &= BPM_u*C_{10} + BPM_v*C{11} + offset_y \nonumber
+\end{align}
+
+the resultant equations give three unknowns per equation. In order to solve for these three variables, we need to complete harp scans at three unique points.
