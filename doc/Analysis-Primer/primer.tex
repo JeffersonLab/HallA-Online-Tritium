@@ -1,4 +1,3 @@
-
 \documentclass[letterpaper,aps,prl,superscriptaddress,floatfix,twocolumn]{revtex4}
 
 \usepackage{graphicx}
@@ -8,8 +7,11 @@
 \usepackage{booktabs}
 \usepackage{rotating}
 \usepackage[]{units}
+\usepackage{subfigure}
+\usepackage{threeparttable}
+\usepackage{multirow}
 %\usepackage{caption}
-
+\graphicspath{ {./Analysis-Primer/Primer_Images/} }
 
 \begin{document}
 
@@ -44,20 +46,36 @@
  (Mike Nycz)
 
  \subsection{ii. VDC}
+(Tong Su)
+\input{VDC}
 
- \subsection{iii. Raster}
+ \subsection{iii. BPM}
+\input{BPM}
+
+ \subsection{iv. Raster}
  (Tyler Hague)
+ \input{raster}
 
- \subsection{iv. BCM}
- (Mike Nycz)
 
- \subsection{v. BPM}
- (Jason Bane)
+ \subsection{v. BCM}
+\input{BCM_Calibration}
+
+ 
+ \subsection{vi. Optics}
+ (Tong Su)
+ \input{optics}
 
 \section{IV. Corrections}
 
- \subsection{i. Positron Subtraction}
+ \subsection{i. PID}
  (Tong Su)
+ \input{PID_study}
+
+ \subsection{i. Positron Subtraction}
+  (Tong Su)
+\input{Positron}
+
+
 
  \subsection{ii. Endcap Subtraction}
  (Tong Su)
@@ -65,11 +83,11 @@
  \subsection{iii. Livetime}
 
  \subsection{iv. Tritium Decay}
- (Tyler Kutz)
+ \input{tritium_decay}
 
  \subsection{v. Boiling}
  (Tong, Mike)
-
+\input{Boiling}
  \subsection{vi. Radiative Corrections}
  (Hanjie Liu)
 
