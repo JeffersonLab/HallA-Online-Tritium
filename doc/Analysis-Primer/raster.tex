@@ -1,7 +1,27 @@
-The Hall A Raster system was calibrated using a combination of the BPMs, Carbon Hole target, and Carbon Single Foil target. The goal of a succesful calibration is to convert the ADC readout of the raster current into a beam position. To do this, a central position of the beam and a conversion factor from ADC readout to beam position deviation from the center.
+The Hall A Raster system was calibrated using a combination of the BPMs, Carbon Hole target, and Carbon Single Foil target. The goal of a successful calibration is to convert the ADC readout of the raster current into a beam position. To do this, a central position of the beam and a conversion factor from ADC readout to beam position deviation from the center.
 
 In Hall A, we have two sets of raster coils working in tandem for the 12 GeV era. These rasters are synced to ensure that they work together, rather than against each other. With this knowledge, the Hall A Analyzer is set up so that the signals from a single raster set are used to determine the beam position. In our case, the analysis code is set up to use the upstream raster coils.
 
 To determine the conversion from ADC to position for the horizontal direction in the hall reference frame (referred to as 'x' from here), we use the Carbon Single Foil Target. When the raster is properly calibrated in the x direction, there should be no correlation between the beam x position and the reconstructed z position of events. To do this, the z position of physics events are sliced in bins of beam x and then fit with a gaussian. The peak position of the each gaussian is then plotted versus the corresponding x position and fit with a line. Doing this method twice with two different preliminary (incorrect) calibrations allows for the slopes to be interpolated to the calibration that would yield no slope (no correlation).
 
-This same procedure can be used with a momentum feature (e.g. the Hydrogen Elastic Peak) to calibrate the vertical direction in the hall reference frame ('y'). However, in the MARATHON kinematics there is no such momentum feature available. As an alternative, the carbon hole is fitted to determine the calibration with the knowledge that it is 2mm in diameter. The fit is done using a sigmoid function to account for smearing that occurs during reconstruction.
+This same procedure can be used with a momentum feature (e.g. the Hydrogen Elastic Peak) to calibrate the vertical direction in the hall reference frame ('y'). However, in the MARATHON kinematics there is no such momentum feature available. As an alternative, the carbon hole is fit to determine the calibration with the knowledge that it is 2mm in diameter. The fit is done using a radial sigmoid function to account for smearing that occurs during reconstruction. A sigmoid is a continuous function that approaches a step function as a "hardness" factor is approaches infinity.
+
+The function used is:
+\begin{equation}
+\frac{[0]}{1+e^{-[5]*\left(\left([1]*\left([2]-x\right)\right)^{2}+\left([3]*\left([4]-y\right)\right)^{2}-1\right)}}+[6]
+\end{equation}
+
+In this function:
+\begin{tabular}{l|l}
+	\multicolumn{2}{l}{Variable Definitions}
+	\hline
+	$[0]$ & \\
+	$[1]$ & \\
+	$[2]$ & \\
+	$[3]$ & \\
+	$[4]$ & \\
+	$[5]$ & \\
+	$[6]$ & \\
+\end{tabular}
+
+Using the sigmoid fit, we found that the edge determined by the fit (the halfway point on the curve) was incorrect. This was discovered by looking at the correlation between the reconstructed x position of the beam and the reconstructed z of the events. However, we can guess that the "true" edge lies at approximately the same point on the curve in both x and y. Using the known conversion for x from the Carbon Single Foil Target, we can determine the position on the curve of the edge and then slide that along the contour of the sigmoid to determine the edge in y.
